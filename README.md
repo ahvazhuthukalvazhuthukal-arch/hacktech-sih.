@@ -135,3 +135,4 @@ You can interactively evaluate:
 | **GeM Buyer Feed** | Compliant XML/JSON procurement feed with Make-in-India compliance. | [MARKETPLACE_CONNECTORS.md](file:///C:/Users/ANDREWS/.gemini/antigravity/scratch/kalai-paalam/docs/MARKETPLACE_CONNECTORS.md) |
 | **Offline-First Resilience** | Mobile SQLite caching with `PENDING_SYNC` state and automatic batch sync. | [OFFLINE_ARCHITECTURE.md](file:///C:/Users/ANDREWS/.gemini/antigravity/scratch/kalai-paalam/docs/OFFLINE_ARCHITECTURE.md) |
 | **Budget Android Support** | Client-side compression (max 1024x1024) keeping memory footprint under 85MB. | [ARCHITECTURE.md](file:///C:/Users/ANDREWS/.gemini/antigravity/scratch/kalai-paalam/docs/ARCHITECTURE.md) |
+"# hacktech-sih" 
