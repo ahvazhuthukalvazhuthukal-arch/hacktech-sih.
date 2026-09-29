@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KalaiPaalamCanonicalProduct",
+  "description": "Canonical product schema used across KalaiPaalam AI mobile, backend, and marketplace connector adapters.",
+  "type": "object",
+  "properties": {
+    "product_id": { "type": "string", "description": "Unique identifier (UUID or KP-code)" },
+    "artisan_id": { "type": "string", "description": "Artisan identifier" },
+    "artisan_name": { "type": "string", "description": "Full name of artisan" },
+    "cluster_name": { "type": "string", "description": "Artisan cooperative or cluster name" },
+    "region": { "type": "string", "description": "Geographical region or GI tag area (e.g. Kanchipuram, Moradabad)" },
+    "title": { "type": "string", "description": "Canonical product title in English" },
+    "hindi_title": { "type": "string", "description": "Hindi product title" },
+    "tamil_title": { "type": "string", "description": "Tamil product title" },
+    "description": { "type": "string", "description": "Detailed English description with artisan story" },
+    "hindi_description": { "type": "string", "description": "Detailed Hindi description" },
+    "tamil_description": { "type": "string", "description": "Detailed Tamil description" },
+    "bullet_points": { "type": "array", "items": { "type": "string" } },
+    "category": { "type": "string", "enum": ["Textiles & Handloom", "Metalware & Brass", "Pottery & Terracotta", "Woodcraft", "Jewelry & Beadwork", "Painting & Folk Art"] },
+    "subcategory": { "type": "string" },
+    "craft_type": { "type": "string", "description": "Craft technique (e.g. Jacquard Handloom, Dhokra Casting)" },
+    "material": { "type": "array", "items": { "type": "string" } },
+    "colors": { "type": "array", "items": { "type": "string" } },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length_cm": { "type": "number" },
+        "width_cm": { "type": "number" },
+        "height_cm": { "type": "number" }
+      }
+    },
+    "weight_grams": { "type": "number" },
+    "hsn_code": { "type": "string", "description": "Harmonized System of Nomenclature code for tax & trade" },
+    "country_of_origin": { "type": "string", "default": "India" },
+    "labour_hours": { "type": "number", "description": "Reported hours spent handcrafting" },
+    "material_cost": { "type": "number", "description": "Raw materials expenditure in INR" },
+    "labour_rate_per_hour": { "type": "number", "description": "Baseline hourly wage in INR" },
+    "overhead_cost": { "type": "number", "description": "Packaging, power, local transport in INR" },
+    "market_signal_multiplier": { "type": "number", "description": "Demand/festive/regional market multiplier" },
+    "price": { "type": "number", "description": "Approved final selling price in INR" },
+    "recommended_price_range": {
+      "type": "object",
+      "properties": {
+        "low": { "type": "number" },
+        "mid": { "type": "number" },
+        "high": { "type": "number" },
+        "explanation": { "type": "string" }
+      }
+    },
+    "inventory": { "type": "integer", "description": "Current stock units available" },
+    "sku": { "type": "string", "description": "Stock Keeping Unit code" },
+    "keywords": { "type": "array", "items": { "type": "string" } },
+    "care_instructions": { "type": "string" },
+    "original_image_url": { "type": "string" },
+    "processed_image_url": { "type": "string" },
+    "voice_transcript": { "type": "string" },
+    "original_audio_url": { "type": "string" },
+    "detected_language": { "type": "string" },
+    "confidence_scores": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Source of each field for audit and human-in-the-loop review",
+      "additionalProperties": { "type": "string", "enum": ["VOICE", "IMAGE", "ARTISAN", "PRICE_ENGINE", "AI_GENERATED", "AI_SUGGESTED", "MANUAL_EDIT"] }
+    },
+    "status": { "type": "string", "enum": ["DRAFT", "PENDING_AI", "READY", "APPROVED", "PUBLISHED", "PENDING_SYNC", "FAILED"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["product_id", "title", "price", "inventory", "category"]
+}

@@ -1,0 +1,32 @@
+{
+  "benchmarks": {
+    "Textiles & Handloom": {
+      "skilled_hourly_rate_inr": 120.0,
+      "overhead_inr": 180.0,
+      "market_signal_multiplier": 1.12,
+      "reference_items": [
+        { "name": "Kanchipuram Silk Saree", "avg_price": 14500, "typical_hours": 96 },
+        { "name": "Handloom Cotton Saree", "avg_price": 5500, "typical_hours": 40 },
+        { "name": "Jacquard Cotton Dupatta", "avg_price": 1800, "typical_hours": 14 }
+      ]
+    },
+    "Metalware & Brass": {
+      "skilled_hourly_rate_inr": 120.0,
+      "overhead_inr": 150.0,
+      "market_signal_multiplier": 1.20,
+      "reference_items": [
+        { "name": "Dhokra Peacock Oil Diya", "avg_price": 3800, "typical_hours": 24 },
+        { "name": "Handcrafted Brass Urli Bowl", "avg_price": 4200, "typical_hours": 28 }
+      ]
+    },
+    "Pottery & Terracotta": {
+      "skilled_hourly_rate_inr": 90.0,
+      "overhead_inr": 120.0,
+      "market_signal_multiplier": 1.15,
+      "reference_items": [
+        { "name": "Traditional Temple Clay Pot", "avg_price": 1200, "typical_hours": 10 }
+      ]
+    }
+  },
+  "provenance_note": "Demo benchmarks calibrated against Handicrafts Development Corporation published minimum wage guidelines."
+}

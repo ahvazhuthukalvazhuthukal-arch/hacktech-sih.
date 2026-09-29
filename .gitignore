@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & Dependencies
+.env
+.venv
+env/
+venv/
+ENV/
+node_modules/
+
+# Local databases & logs
+*.db
+*.sqlite3
+*.log
+
+# Editor & OS artifacts
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Flutter / Mobile build artifacts
+.dart_tool/
+.packages
+build/
+ios/.symlinks/

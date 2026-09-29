@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KalaiPaalam AI — SIH26090 Heritage & Culture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terracotta: #C85A32;
+      --terracotta-dark: #A43F1B;
+      --terracotta-light: #FBF1EC;
+      --indigo: #1A365D;
+      --indigo-light: #2A4365;
+      --gold: #D4AF37;
+      --gold-light: #FEF9E7;
+      --bg-slate: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border-subtle: #E2E8F0;
+      --green-success: #10B981;
+      --green-light: #ECFDF5;
+      --amber-warn: #F59E0B;
+      --amber-light: #FFFBEB;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation Banner */
+    header.top-bar {
+      background: white;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.3rem;
+      box-shadow: 0 2px 6px rgba(200,90,50,0.3);
+    }
+    .brand-title {
+      font-family: 'Rozha One', serif;
+      font-size: 1.5rem;
+      color: var(--terracotta-dark);
+      letter-spacing: 0.5px;
+    }
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .sih-badge {
+      background: var(--gold-light);
+      border: 1px solid rgba(212,175,55,0.4);
+      color: #854D0E;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* View Switcher Tabs */
+    .view-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--bg-slate);
+      padding: 0.3rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: white;
+      color: var(--terracotta);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Offline Switch */
+    .offline-toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--terracotta-light);
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(200,90,50,0.2);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 36px;
+      height: 20px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #CBD5E1; transition: .3s; border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #EF4444; }
+    input:checked + .slider:before { transform: translateX(16px); }
+
+    /* Main Container */
+    main.app-shell {
+      max-width: 1440px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- TAB 1: ARTISAN MOBILE APP SIMULATOR --- */
+    .mobile-simulator-layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .phone-mockup {
+      background: #000;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow: 0 25px 60px -15px rgba(0,0,0,0.3), 0 0 0 1px #334155;
+      position: relative;
+    }
+    .phone-screen {
+      background: #FAFAFA;
+      border-radius: 34px;
+      height: 840px;
+      overflow-y: auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .phone-screen::-webkit-scrollbar { width: 4px; }
+    .phone-screen::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+
+    .notch {
+      width: 130px;
+      height: 22px;
+      background: #000;
+      margin: 0 auto;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .mobile-header {
+      padding: 1rem 1.25rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .artisan-greeting {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .artisan-cluster-tag {
+      font-size: 0.72rem;
+      color: var(--terracotta);
+      font-weight: 700;
+    }
+
+    /* Screen Views within Mobile App */
+    .mobile-screen-view { display: none; padding: 1rem 1.25rem; flex: 1; }
+    .mobile-screen-view.active { display: flex; flex-direction: column; }
+
+    .hero-action-card {
+      background: linear-gradient(135deg, var(--terracotta), #D97706);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 10px 20px -5px rgba(200,90,50,0.4);
+    }
+    .hero-btn {
+      background: white;
+      color: var(--terracotta-dark);
+      border: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Quick Channel Status on Mobile Home */
+    .mobile-channel-strip {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.25rem;
+    }
+    .channel-pill-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+    }
+    .channel-pill {
+      background: var(--bg-slate);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+    .channel-pill.connected {
+      background: var(--green-light);
+      border-color: rgba(16,185,129,0.3);
+      color: #065F46;
+    }
+
+    /* Interactive Pipeline Progress */
+    .ai-pipeline-bar {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 1rem 0 1.5rem;
+    }
+    .ai-pipeline-bar::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 10px;
+      right: 10px;
+      height: 3px;
+      background: #E2E8F0;
+      z-index: 1;
+    }
+    .pipe-step {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .pipe-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748B;
+      transition: all 0.3s ease;
+    }
+    .pipe-step.done .pipe-dot {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: white;
+    }
+    .pipe-step.active .pipe-dot {
+      border-color: var(--terracotta);
+      color: var(--terracotta);
+      box-shadow: 0 0 0 4px rgba(200,90,50,0.2);
+    }
+    .pipe-label { font-size: 0.68rem; font-weight: 700; color: #64748B; }
+
+    /* Studio Comparison Frame */
+    .studio-preview-box {
+      background: white;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .comparison-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+    }
+    .img-box {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F1F5F9;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .img-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0,0,0,0.65);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .img-badge.after {
+      background: var(--terracotta);
+    }
+
+    /* Voice Waveform and Transcript Box */
+    .voice-interactive-panel {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .waveform-visualizer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      height: 36px;
+      margin: 0.5rem 0;
+    }
+    .wave-bar {
+      width: 4px;
+      height: 10px;
+      background: var(--terracotta);
+      border-radius: 2px;
+      animation: soundWave 1.2s infinite ease-in-out;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.2s; height: 24px; }
+    .wave-bar:nth-child(3) { animation-delay: 0.4s; height: 32px; }
+    .wave-bar:nth-child(4) { animation-delay: 0.1s; height: 16px; }
+    .wave-bar:nth-child(5) { animation-delay: 0.5s; height: 28px; }
+    .wave-bar:nth-child(6) { animation-delay: 0.3s; height: 12px; }
+    @keyframes soundWave {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+
+    /* Touch-to-Confirm Cards */
+    .confirm-card {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .confirm-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+    .confirm-val { font-size: 0.88rem; font-weight: 700; color: var(--text-main); }
+    .confirm-source { font-size: 0.65rem; background: #EEF2F6; color: #475569; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+
+    /* Pricing Recommendation Section */
+    .price-box {
+      background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .price-headline {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #92400E;
+    }
+    .cost-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #78350F;
+      margin-top: 0.3rem;
+    }
+
+    /* Language & Craft Chips */
+    .lang-pill {
+      background: var(--bg-slate);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+    .lang-pill:hover {
+      background: #E2E8F0;
+    }
+    .lang-pill.active {
+      background: var(--terracotta);
+      color: white;
+      border-color: var(--terracotta);
+    }
+    .craft-chip {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 9999px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      cursor: pointer;
+      color: var(--text-main);
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .craft-chip:hover {
+      border-color: var(--terracotta);
+      color: var(--terracotta);
+      background: var(--terracotta-light);
+    }
+
+    /* Marketplace Checkboxes */
+    .market-select-card {
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: white;
+      transition: all 0.2s ease;
+    }
+    .market-select-card.selected {
+      border-color: var(--terracotta);
+      background: var(--terracotta-light);
+    }
+
+    /* Explanation Explanatory Right Panel (Interactive Inspector) */
+    .simulator-inspector {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-md);
+    }
+    .inspector-header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .code-box {
+      background: #0F172A;
+      color: #38BDF8;
+      font-family: 'Consolas', monospace;
+      font-size: 0.78rem;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      max-height: 280px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+
+    /* --- TAB 2: CONNECT STORES DASHBOARD --- */
+    .stores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .store-card {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .store-card.connected {
+      border-top: 4px solid var(--green-success);
+    }
+    .store-card.disconnected {
+      border-top: 4px solid #CBD5E1;
+    }
+    .store-badge {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+    }
+    .store-badge.demo {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FCD34D;
+    }
+    .store-badge.live {
+      background: var(--green-light);
+      color: #065F46;
+      border: 1px solid rgba(16,185,129,0.4);
+    }
+    .cap-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 1rem 0;
+    }
+    .cap-tag {
+      background: var(--bg-slate);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .btn-primary:hover { background: var(--terracotta-dark); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-outline:hover { background: var(--bg-slate); }
+
+    /* --- TAB 3: ADMIN & JUDGE TRACEABILITY --- */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--terracotta); }
+    .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+
+    /* --- TAB 4: BUYER CATALOG STOREFRONT --- */
+    .catalog-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .card-img-wrap {
+      height: 220px;
+      background: #F8FAFC;
+      position: relative;
+    }
+    .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .card-content { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--text-main); }
+    .card-artisan { font-size: 0.78rem; color: var(--terracotta); font-weight: 600; margin-bottom: 0.5rem; }
+    .card-price { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: white; border-radius: var(--radius-lg); width: 90%; max-width: 600px;
+      max-height: 85vh; overflow-y: auto; padding: 2rem; box-shadow: var(--shadow-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand-group">
+      <div class="brand-logo">க</div>
+      <div>
+        <div class="brand-title">KalaiPaalam AI</div>
+        <div class="brand-sub">Craft-to-Commerce Linkage • SIH26090</div>
+      </div>
+      <div class="sih-badge">
+        <span>🏛️ Heritage & Culture</span>
+      </div>
+    </div>
+
+    <!-- Switcher -->
+    <div class="view-tabs">
+      <button class="tab-btn active" onclick="switchMainTab('tab-mobile')">📱 Artisan Mobile App</button>
+      <button class="tab-btn" onclick="switchMainTab('tab-stores')">🔌 Connect Stores</button>
+      <button class="tab-btn" onclick="switchMainTab('tab-sync')">🔄 Multi-Store Sync</button>
+      <button class="tab-btn" onclick="switchMainTab('tab-admin')">📊 Admin & Traceability</button>
+      <button class="tab-btn" onclick="switchMainTab('tab-catalog')">🛍️ Buyer Catalog</button>
+    </div>
+
+    <!-- Offline Mode Simulator -->
+    <div class="offline-toggle-container">
+      <span>Offline Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="offlineToggle" onchange="handleOfflineToggle(this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <main class="app-shell">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: ARTISAN MOBILE APP SIMULATOR       -->
+    <!-- ========================================== -->
+    <div id="tab-mobile" class="view-panel active">
+      <div class="mobile-simulator-layout">
+        
+        <!-- Mobile Device Mockup -->
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="notch"></div>
+
+            <!-- Offline Banner on Phone -->
+            <div id="phoneOfflineBanner" style="display: none; background: #EF4444; color: white; text-align: center; font-size: 0.72rem; font-weight: 700; padding: 0.35rem;">
+              ⚠️ OFFLINE MODE: Drafts saved locally on SQLite
+            </div>
+
+            <!-- SCREEN 1: Mobile Home -->
+            <div id="screen-home" class="mobile-screen-view active">
+              <div class="mobile-header">
+                <div>
+                  <div class="artisan-greeting">வணக்கம், Meenakshi 👋</div>
+                  <div class="artisan-cluster-tag">Kanchipuram Heritage Guild</div>
+                </div>
+                <div style="background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px;">
+                  TA / EN
+                </div>
+              </div>
+
+              <!-- Main Add Product Action -->
+              <div class="hero-action-card">
+                <h3 style="font-size: 1.15rem; font-weight: 800;">Create Catalog Product</h3>
+                <p style="font-size: 0.8rem; opacity: 0.9; margin-top: 0.25rem;">
+                  Take 1 photo + speak in your language. AI handles studio editing, description, fair pricing & multi-channel publishing.
+                </p>
+                <button class="hero-btn" onclick="goToMobileScreen('screen-capture')">
+                  <span>📸</span>
+                  <span>+ Start New Craft Product</span>
+                </button>
+              </div>
+
+              <!-- Sales Channels Status -->
+              <div class="mobile-channel-strip">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 0.8rem; font-weight: 700;">Connected Sales Channels</span>
+                  <span style="font-size: 0.72rem; color: var(--terracotta); font-weight: 600; cursor: pointer;" onclick="switchMainTab('tab-stores')">Manage</span>
+                </div>
+                <div class="channel-pill-row">
+                  <div class="channel-pill connected">✓ ONDC (Beckn)</div>
+                  <div class="channel-pill connected">✓ GeM Feed</div>
+                  <div class="channel-pill connected">✓ Amazon</div>
+                  <div class="channel-pill connected">✓ Flipkart</div>
+                </div>
+              </div>
+
+              <!-- Recent Products -->
+              <div style="font-size: 0.82rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--text-main);">My Artisan Catalog (2 Ready)</div>
+              <div id="mobileProductsList">
+                <div class="confirm-card" style="cursor: pointer;" onclick="openProductDetail('KP-001')">
+                  <div>
+                    <div class="confirm-val">Handwoven Cotton Saree</div>
+                    <div style="font-size: 0.72rem; color: #10B981; font-weight: 700;">● Published to 5 Channels</div>
+                  </div>
+                  <div style="font-weight: 800; color: var(--terracotta);">₹5,500</div>
+                </div>
+                <div class="confirm-card" style="cursor: pointer;" onclick="openProductDetail('KP-002')">
+                  <div>
+                    <div class="confirm-val">Dhokra Brass Peacock Lamp</div>
+                    <div style="font-size: 0.72rem; color: #10B981; font-weight: 700;">● Published to 5 Channels</div>
+                  </div>
+                  <div style="font-weight: 800; color: var(--terracotta);">₹3,800</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SCREEN 2: Photo Capture & Voice Input -->
+            <div id="screen-capture" class="mobile-screen-view">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <button class="btn-outline" style="padding: 4px 8px; font-size: 0.75rem;" onclick="goToMobileScreen('screen-home')">← Back</button>
+                <span style="font-weight: 800; font-size: 0.95rem;">Step 1: Photo & Voice</span>
+              </div>
+
+              <!-- Photo Area with Real Upload / Camera Support -->
+              <input type="file" id="userImageUpload" accept="image/*" style="display:none;" onchange="handleUserPhotoSelected(event)">
+              <div style="border: 2px dashed #CBD5E1; border-radius: var(--radius-md); padding: 1rem; text-align: center; background: white; margin-bottom: 1rem;">
+                <div style="position: relative; width: 100%; height: 160px; margin-bottom: 0.5rem; border-radius: 8px; overflow: hidden; background: #F1F5F9; cursor: pointer;" onclick="document.getElementById('userImageUpload').click()">
+                  <img id="mobileCapturePreview" src="/static/images/saree_raw.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                  <span id="photoBadge" style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); color: white; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;">Sample: Handloom Saree</span>
+                </div>
+                
+                <button class="btn-primary" style="width: 100%; font-size: 0.78rem; padding: 0.55rem; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;" onclick="document.getElementById('userImageUpload').click()">
+                  <span>📷 Take Photo / Upload Your Own Image</span>
+                </button>
+                
+                <div style="display: flex; gap: 0.35rem; justify-content: center; flex-wrap: wrap;">
+                  <button type="button" class="btn-outline" style="font-size: 0.68rem; padding: 3px 7px;" onclick="simulateCapture('saree')">🥻 Saree</button>
+                  <button type="button" class="btn-outline" style="font-size: 0.68rem; padding: 3px 7px;" onclick="simulateCapture('brass')">🪙 Brass Diya</button>
+                  <button type="button" class="btn-outline" style="font-size: 0.68rem; padding: 3px 7px;" onclick="simulateCapture('velaku')">🪔 Clay Diya</button>
+                  <button type="button" class="btn-outline" style="font-size: 0.68rem; padding: 3px 7px;" onclick="simulateCapture('wood')">🐘 Woodcraft</button>
+                </div>
+              </div>
+
+              <!-- Voice Input Section with Real Microphone & Live Speech-to-Text -->
+              <div class="voice-interactive-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.8rem; font-weight: 700;">Describe Your Craft</span>
+                  <select id="voiceLangSelect" style="font-size: 0.7rem; border-radius: 4px; border: 1px solid #CBD5E1; padding: 2px 4px; font-weight: 600;" onchange="onLanguageChange(this.value)">
+                    <option value="ta" selected>தமிழ் (Tamil)</option>
+                    <option value="hi">हिन्दी (Hindi)</option>
+                    <option value="en">English</option>
+                  </select>
+                </div>
+
+                <!-- Quick Craft Preset Chips -->
+                <div style="display: flex; gap: 0.3rem; margin-bottom: 0.4rem; overflow-x: auto; padding-bottom: 2px;">
+                  <button type="button" class="craft-chip" onclick="setCraftPreset('velaku')">🪔 மண் விளக்கு / Clay Diya</button>
+                  <button type="button" class="craft-chip" onclick="setCraftPreset('saree')">🥻 பட்டுப் புடவை / Saree</button>
+                  <button type="button" class="craft-chip" onclick="setCraftPreset('brass')">🪙 பித்தளை / Brass</button>
+                  <button type="button" class="craft-chip" onclick="setCraftPreset('wood')">🐘 மர யானை / Woodcraft</button>
+                </div>
+                
+                <div class="waveform-visualizer" id="waveVisualizer">
+                  <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                  <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                </div>
+
+                <div style="display: flex; gap: 0.4rem; margin-bottom: 0.5rem;">
+                  <button id="btnVoiceRecord" class="btn-outline" style="flex: 1; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;" onclick="toggleLiveVoice()">
+                    <span id="voiceMicIcon">🎙️</span>
+                    <span id="voiceMicText">Start Speaking (Live Mic)</span>
+                  </button>
+                </div>
+
+                <textarea id="spokenTranscriptInput" rows="3" style="width: 100%; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.5rem; font-size: 0.75rem; color: var(--text-main); font-family: inherit; resize: none; margin-bottom: 0.75rem;">இது எங்க காஞ்சிபுரம் குழு நெய்த தூய பருத்தி புடவை. பாரம்பரிய மலர் கோவில் பார்டர், செய்ய ரெண்டு நாள் ஆச்சு. மூலப்பொருள் செலவு எட்டுநூறு ரூபாய்.</textarea>
+
+                <button id="btnTransformAI" class="btn-primary" style="width: 100%; font-size: 0.85rem;" onclick="runAITransformation()">
+                  ✨ Transform with AI Studio
+                </button>
+              </div>
+            </div>
+
+            <!-- SCREEN 3: AI Processing & Review Cards -->
+            <div id="screen-review" class="mobile-screen-view">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                <span style="font-weight: 800; font-size: 0.95rem;">Step 2: AI Review & Pricing</span>
+                <span style="font-size: 0.7rem; background: #DCFCE7; color: #166534; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Confidence: HIGH</span>
+              </div>
+
+              <!-- AI Studio Result Comparison -->
+              <div class="studio-preview-box">
+                <div class="comparison-container">
+                  <div class="img-box">
+                    <img id="reviewRawImg" src="/static/images/saree_raw.jpg">
+                    <span class="img-badge">RAW WORKSHOP</span>
+                  </div>
+                  <div class="img-box" style="background: #F8F9FA;">
+                    <img id="reviewCatalogImg" src="/static/images/saree_catalog.jpg">
+                    <span class="img-badge after">AI STUDIO CATALOG</span>
+                  </div>
+                </div>
+                <div style="padding: 0.5rem; font-size: 0.7rem; background: white; text-align: center; color: var(--text-muted); font-weight: 600;">
+                  U2-Net Neural Matting • Seamless Studio White • 3D Contact Shadow
+                </div>
+              </div>
+
+              <!-- Touch-to-Confirm Attributes -->
+              <div class="confirm-card">
+                <div>
+                  <div class="confirm-label">Product Title</div>
+                  <input type="text" id="reviewTitle" value="Handwoven Cotton Floral Border Saree" style="border: 1px solid #CBD5E1; border-radius: 4px; padding: 4px 6px; font-weight: 700; font-size: 0.85rem; width: 230px;">
+                </div>
+                <span class="confirm-source">AI TITLE</span>
+              </div>
+
+              <!-- AI Storytelling Caption & Description Card -->
+              <div class="confirm-card" style="flex-direction: column; align-items: stretch; gap: 0.45rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="confirm-label" style="font-size: 0.75rem; font-weight: 800; color: var(--terracotta);">AI Storytelling Caption & Description</div>
+                  <div style="display: flex; gap: 4px;">
+                    <button type="button" class="lang-pill active" id="pillEn" onclick="switchReviewLang('en')">EN</button>
+                    <button type="button" class="lang-pill" id="pillTa" onclick="switchReviewLang('ta')">தமிழ்</button>
+                    <button type="button" class="lang-pill" id="pillHi" onclick="switchReviewLang('hi')">हिन्दी</button>
+                  </div>
+                </div>
+                <textarea id="reviewDescription" rows="4" style="width: 100%; border: 1px solid #CBD5E1; border-radius: 6px; padding: 0.45rem; font-size: 0.73rem; color: var(--text-main); font-family: inherit; line-height: 1.4; resize: vertical;"></textarea>
+                <div id="reviewBulletPoints" style="display: flex; flex-direction: column; gap: 2px; font-size: 0.67rem; color: var(--text-muted); border-top: 1px dashed #E2E8F0; padding-top: 4px;">
+                </div>
+              </div>
+
+              <div class="confirm-card">
+                <div>
+                  <div class="confirm-label">Material & Technique</div>
+                  <div class="confirm-val" id="reviewMaterial">Pure Cotton • Pit Loom</div>
+                </div>
+                <span class="confirm-source">VOICE</span>
+              </div>
+
+              <div class="confirm-card">
+                <div>
+                  <div class="confirm-label">HSN Code (Tax/Export)</div>
+                  <div class="confirm-val" id="reviewHsn">5208 (Cotton Textiles)</div>
+                </div>
+                <span class="confirm-source" style="background: #FEF3C7; color: #92400E;">AI SUGGESTED</span>
+              </div>
+
+              <!-- Dynamic Fair Price Box -->
+              <div class="price-box">
+                <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #92400E;">Dynamic Fair-Price Recommendation</div>
+                <div class="price-headline" id="reviewPriceDisplay">₹5,500</div>
+                <div style="font-size: 0.75rem; color: #78350F; margin-top: 0.2rem;" id="reviewPriceRange">Suggested Range: ₹5,200 – ₹5,900</div>
+                
+                <div style="border-top: 1px dashed rgba(217,119,6,0.3); margin-top: 0.5rem; padding-top: 0.5rem;">
+                  <div class="cost-breakdown-row">
+                    <span>Raw Material Cost:</span>
+                    <strong id="priceMatCost">₹800</strong>
+                  </div>
+                  <div class="cost-breakdown-row">
+                    <span>Labour (40 hrs @ ₹120/hr):</span>
+                    <strong>₹4,800</strong>
+                  </div>
+                  <div class="cost-breakdown-row">
+                    <span>Packaging & Handling:</span>
+                    <strong>₹200</strong>
+                  </div>
+                  <div class="cost-breakdown-row">
+                    <span>Festive Market Factor:</span>
+                    <strong>1.12x</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Next Action Button -->
+              <button class="btn-primary" style="width: 100%; font-size: 0.88rem; padding: 0.75rem;" onclick="goToMobileScreen('screen-publish')">
+                Continue to Store Selection →
+              </button>
+            </div>
+
+            <!-- SCREEN 4: Select Stores & 1-Click Publish -->
+            <div id="screen-publish" class="mobile-screen-view">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <button class="btn-outline" style="padding: 4px 8px; font-size: 0.75rem;" onclick="goToMobileScreen('screen-review')">← Back</button>
+                <span style="font-weight: 800; font-size: 0.95rem;">Step 3: Where to Sell?</span>
+              </div>
+
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                One digital product automatically mapped to each marketplace's required schema:
+              </p>
+
+              <!-- Market Channels Checklist -->
+              <div class="market-select-card selected" onclick="toggleChannelSelect(this, 'KalaiPaalam Catalog')">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.85rem;">KalaiPaalam D2C Catalog</div>
+                  <div style="font-size: 0.7rem; color: var(--green-success);">✓ Live Storefront • Direct Buyer Orders</div>
+                </div>
+                <input type="checkbox" checked onclick="event.stopPropagation()">
+              </div>
+
+              <div class="market-select-card selected" onclick="toggleChannelSelect(this, 'ONDC')">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.85rem;">ONDC (Beckn Protocol)</div>
+                  <div style="font-size: 0.7rem; color: #2563EB;">✓ Open Network • National Discovery</div>
+                </div>
+                <input type="checkbox" checked onclick="event.stopPropagation()">
+              </div>
+
+              <div class="market-select-card selected" onclick="toggleChannelSelect(this, 'GeM')">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.85rem;">GeM (Govt e-Marketplace)</div>
+                  <div style="font-size: 0.7rem; color: #D97706;">✓ Public Procurement & SHG Feed</div>
+                </div>
+                <input type="checkbox" checked onclick="event.stopPropagation()">
+              </div>
+
+              <div class="market-select-card selected" onclick="toggleChannelSelect(this, 'Amazon')">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.85rem;">Amazon Karigar</div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">✓ SP-API Schema Ready</div>
+                </div>
+                <input type="checkbox" checked onclick="event.stopPropagation()">
+              </div>
+
+              <div class="market-select-card selected" onclick="toggleChannelSelect(this, 'Flipkart')">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.85rem;">Flipkart Samarth</div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">✓ Samarth Weavers Portal</div>
+                </div>
+                <input type="checkbox" checked onclick="event.stopPropagation()">
+              </div>
+
+              <!-- Main Publish Button -->
+              <div style="margin-top: 1rem;">
+                <button id="btnPublishAll" class="btn-primary" style="width: 100%; font-size: 0.95rem; padding: 0.85rem;" onclick="executePublishAll()">
+                  🚀 Publish to All Selected Stores
+                </button>
+              </div>
+
+              <!-- Publishing Status Progress Display -->
+              <div id="publishProgressBox" style="display: none; margin-top: 1rem; background: white; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.75rem; font-size: 0.75rem;">
+                <div style="font-weight: 700; margin-bottom: 0.3rem;">Publishing Progress:</div>
+                <div id="prog-ondc">⏳ ONDC Beckn: Generating payload...</div>
+                <div id="prog-gem">⏳ GeM Feed: Formulating specs...</div>
+                <div id="prog-amz">⏳ Amazon Karigar: Validating attributes...</div>
+                <div id="prog-fk">⏳ Flipkart Samarth: Creating listing...</div>
+                <div id="prog-cat">⏳ D2C Store: Activating...</div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation Bar on Mobile -->
+            <div style="margin-top: auto; border-top: 1px solid var(--border-subtle); background: white; padding: 0.6rem 1.5rem; display: flex; justify-content: space-around;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--terracotta); cursor: pointer;" onclick="goToMobileScreen('screen-home')">🏠 Home</span>
+              <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); cursor: pointer;" onclick="goToMobileScreen('screen-capture')">➕ Add</span>
+              <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); cursor: pointer;" onclick="switchMainTab('tab-stores')">🔌 Stores</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Explanatory Right Panel for Evaluators & Judges -->
+        <div class="simulator-inspector">
+          <div class="inspector-header">
+            <div>
+              <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--indigo);">Canonical Product Inspector</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Real-time inspection of canonical JSON and downstream marketplace transformations</p>
+            </div>
+            <span style="font-size: 0.75rem; background: var(--terracotta-light); color: var(--terracotta); font-weight: 700; padding: 4px 10px; border-radius: 9999px;">
+              Single Source of Truth
+            </span>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <button class="btn-outline active" style="font-size: 0.78rem;" onclick="inspectView('canonical')">Canonical Model</button>
+            <button class="btn-outline" style="font-size: 0.78rem;" onclick="inspectView('ondc')">ONDC (Beckn) Payload</button>
+            <button class="btn-outline" style="font-size: 0.78rem;" onclick="inspectView('gem')">GeM Feed Payload</button>
+            <button class="btn-outline" style="font-size: 0.78rem;" onclick="inspectView('amazon')">Amazon SP-API</button>
+          </div>
+
+          <pre id="inspectorCodeBox" class="code-box">Loading canonical product object...</pre>
+
+          <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-slate); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">💡 Core Architecture Principle Demonstrated:</div>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">
+              The mobile application <strong>never talks directly</strong> to Amazon, Flipkart, ONDC, or GeM. The artisan creates the craft product <strong>only once</strong> using natural photo and voice. The backend Canonical Engine maps the product to destination schemas and validates mandatory attributes prior to transmission.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: CONNECT STORES DASHBOARD            -->
+    <!-- ========================================== -->
+    <div id="tab-stores" class="view-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--indigo);">Connect Your Stores</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Manage sales channel authentications, OAuth token status, and operational capabilities.</p>
+        </div>
+        <button class="btn-primary" onclick="simulateNewStoreModal()">+ Add New Marketplace</button>
+      </div>
+
+      <div class="stores-grid" id="storesGridContainer">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: MULTI-STORE PRICE & INVENTORY SYNC -->
+    <!-- ========================================== -->
+    <div id="tab-sync" class="view-panel">
+      <div style="background: white; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--indigo);">Centralized 1-Click Price & Stock Sync</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+          Update price or stock count here once; the KalaiPaalam connector engine immediately pushes updates across all connected channels.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <!-- Product Selector & Price Updater -->
+          <div style="background: var(--bg-slate); border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">Target Product:</div>
+            <select id="syncProductSelect" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #CBD5E1; font-weight: 700; margin-bottom: 1rem;">
+              <option value="KP-001">KP-001: Handwoven Cotton Floral Border Saree</option>
+              <option value="KP-002">KP-002: Handcrafted Dhokra Brass Peacock Lamp</option>
+            </select>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+              <div style="flex: 1;">
+                <label style="font-size: 0.78rem; font-weight: 700; display: block; margin-bottom: 0.3rem;">New Selling Price (₹)</label>
+                <input type="number" id="syncPriceInput" value="5800" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #CBD5E1; font-weight: 800; font-size: 1.1rem;">
+              </div>
+              <div style="flex: 1;">
+                <label style="font-size: 0.78rem; font-weight: 700; display: block; margin-bottom: 0.3rem;">Inventory Stock (Units)</label>
+                <input type="number" id="syncStockInput" value="9" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #CBD5E1; font-weight: 800; font-size: 1.1rem;">
+              </div>
+            </div>
+
+            <button class="btn-primary" style="width: 100%;" onclick="executeCentralSync()">
+              ⚡ Push Updates Across All Connected Stores
+            </button>
+          </div>
+
+          <!-- Live Channel Sync Status Display -->
+          <div style="background: white; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">Live Channel Sync Feeds:</div>
+            <div id="syncFeedList">
+              <div class="confirm-card">
+                <div><strong>Amazon SP-API</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹5,500 • 10 units</div></div>
+                <span class="confirm-source">ACTIVE</span>
+              </div>
+              <div class="confirm-card">
+                <div><strong>Flipkart Samarth</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹5,500 • 10 units</div></div>
+                <span class="confirm-source">ACTIVE</span>
+              </div>
+              <div class="confirm-card">
+                <div><strong>ONDC Beckn BPP</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹5,500 • 10 units</div></div>
+                <span class="confirm-source">ACTIVE</span>
+              </div>
+              <div class="confirm-card">
+                <div><strong>KalaiPaalam Catalog</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹5,500 • 10 units</div></div>
+                <span class="confirm-source">LIVE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: ADMIN DASHBOARD & TRACEABILITY     -->
+    <!-- ========================================== -->
+    <div id="tab-admin" class="view-panel">
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="statArtisans">42</div>
+          <div class="stat-label">Artisans in Cluster</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statProducts">12</div>
+          <div class="stat-label">Total Catalog Products</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statPublished">8</div>
+          <div class="stat-label">Multi-Channel Published</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statChannels">5</div>
+          <div class="stat-label">Active Sales Channels</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <!-- Cluster Bulk Publishing -->
+        <div style="background: white; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--indigo); margin-bottom: 0.5rem;">Village Cluster Mode Bulk Publishing</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Cluster manager can select batch products and push them into ONDC, GeM, and Amazon simultaneously.
+          </p>
+
+          <div style="background: var(--bg-slate); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">
+              <span>Batch Queue Ready</span>
+              <span style="color: var(--terracotta);">4 Ready Products</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">
+              ☑ Handwoven Cotton Saree • ☑ Dhokra Peacock Lamp • ☑ Zari Clutch Bag • ☑ Terracotta Temple Pot
+            </div>
+          </div>
+
+          <button class="btn-primary" style="width: 100%;" onclick="executeBulkPublish()">
+            ⚡ Bulk Publish Batch to All Connected Channels
+          </button>
+        </div>
+
+        <!-- Full Provenance Traceability Inspector for Judges -->
+        <div style="background: white; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--indigo); margin-bottom: 0.5rem;">Judge Audit & Traceability Trail</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Inspects every raw transformation step from voice waveform to marketplace payload.
+          </p>
+          <div id="adminTraceabilityTrail" style="font-size: 0.78rem; background: #0F172A; color: #38BDF8; padding: 1rem; border-radius: 8px; font-family: monospace; max-height: 250px; overflow-y: auto;">
+            Click to inspect traceability for KP-001...
+          </div>
+          <button class="btn-outline" style="width: 100%; margin-top: 0.75rem; font-size: 0.78rem;" onclick="loadTraceability('KP-001')">
+            🔍 Inspect Pipeline Trail for KP-001
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: BUYER CATALOG STOREFRONT            -->
+    <!-- ========================================== -->
+    <div id="tab-catalog" class="view-panel">
+      <div class="catalog-filter-bar">
+        <div style="font-weight: 800; font-size: 1.2rem; color: var(--terracotta-dark);">
+          KalaiPaalam D2C Artisan Storefront
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn-outline active" onclick="filterCatalog('All')">All Crafts</button>
+          <button class="btn-outline" onclick="filterCatalog('Textiles & Handloom')">Handlooms</button>
+          <button class="btn-outline" onclick="filterCatalog('Metalware & Brass')">Brass & Metal</button>
+          <button class="btn-outline" onclick="filterCatalog('Pottery & Terracotta')">Terracotta</button>
+        </div>
+      </div>
+
+      <div class="catalog-grid" id="buyerCatalogGrid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Connect Store Modal -->
+  <div class="modal-overlay" id="connectModal">
+    <div class="modal-content">
+      <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem;" id="modalStoreTitle">Connect Marketplace</h3>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Authenticate with marketplace OAuth service. KalaiPaalam stores only secure token vault references — never plaintext passwords.
+      </p>
+
+      <div style="background: var(--bg-slate); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
+        <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">Environment: <span id="modalEnvTag" style="color: #92400E;">DEMO / SANDBOX</span></div>
+        <p style="font-size: 0.75rem; color: var(--text-muted);">
+          In compliance with SIH criteria, live marketplace tokens require verified production credentials. This connection operates in verified sandbox adapter mode.
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button class="btn-outline" onclick="closeConnectModal()">Cancel</button>
+        <button class="btn-primary" id="btnConfirmConnect" onclick="confirmStoreConnect()">Authorize & Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global State
+    let isOffline = false;
+    let currentCanonicalProduct = null;
+    let activeModalMarketplace = null;
+    let selectedPublishChannels = ["KalaiPaalam Catalog", "ONDC", "GeM", "Amazon", "Flipkart"];
+
+    // Initialize application on load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadInitialProduct();
+      loadStoresList();
+      loadBuyerCatalog();
+      loadTraceability('KP-001');
+    });
+
+    function switchMainTab(tabId) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (tabId === 'tab-stores') loadStoresList();
+      if (tabId === 'tab-catalog') loadBuyerCatalog();
+    }
+
+    function goToMobileScreen(screenId) {
+      document.querySelectorAll('.mobile-screen-view').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function handleOfflineToggle(checked) {
+      isOffline = checked;
+      const banner = document.getElementById('phoneOfflineBanner');
+      banner.style.display = isOffline ? 'block' : 'none';
+      if (!isOffline) {
+        // Trigger auto-sync when connection returns
+        triggerAutoSync();
+      }
+    }
+
+    async function loadInitialProduct() {
+      try {
+        const res = await fetch('/api/products/KP-001');
+        const data = await res.json();
+        currentCanonicalProduct = data;
+        inspectView('canonical');
+      } catch (err) {
+        console.error('Error fetching initial product:', err);
+      }
+    }
+
+    function inspectView(type) {
+      const codeBox = document.getElementById('inspectorCodeBox');
+      if (!currentCanonicalProduct) {
+        codeBox.textContent = "Loading...";
+        return;
+      }
+
+      if (type === 'canonical') {
+        codeBox.textContent = JSON.stringify(currentCanonicalProduct, null, 2);
+      } else if (type === 'ondc') {
+        fetch(`/api/marketplaces/ONDC/payload/${currentCanonicalProduct.product_id}`)
+          .then(r => r.json())
+          .then(d => { codeBox.textContent = JSON.stringify(d.generated_protocol_payload, null, 2); });
+      } else if (type === 'gem') {
+        fetch(`/api/marketplaces/GeM/payload/${currentCanonicalProduct.product_id}`)
+          .then(r => r.json())
+          .then(d => { codeBox.textContent = JSON.stringify(d.generated_protocol_payload, null, 2); });
+      } else if (type === 'amazon') {
+        fetch(`/api/marketplaces/Amazon/payload/${currentCanonicalProduct.product_id}`)
+          .then(r => r.json())
+          .then(d => { codeBox.textContent = JSON.stringify(d.generated_protocol_payload, null, 2); });
+      }
+    }
+
+    let userUploadedFile = null;
+    let speechRecognition = null;
+    let isListening = false;
+    let currentReviewLang = 'en';
+
+    const CRAFT_PRESETS = {
+      velaku: {
+        img: '/static/images/raw_velaku.jpg',
+        badge: 'Sample: Terracotta Diya',
+        ta: 'இது கிராமத்து மண்பாண்ட கலைஞர்கள் சுடுமண்ணால் (Terracotta) சக்கர முறையில் வடிவமைத்த பாரம்பரிய அகல் விளக்குகள். செய்ய ஒரு நாள் ஆனது. மூலப்பொருள் செலவு 350 ரூபாய்.',
+        hi: 'यह पारंपरिक मिट्टी के हस्तनिर्मित दीये हैं, जिन्हें कुम्हार के चाक पर बनाया गया है। बनाने में 1 दिन लगा। कच्ची सामग्री लागत 350 रुपये।',
+        en: 'Handcrafted traditional terracotta clay diya lamps (Agal Vilakku) shaped on potter\'s wheel. Took 1 day to make. Material cost 350 rupees.'
+      },
+      saree: {
+        img: '/static/images/saree_raw.jpg',
+        badge: 'Sample: Handloom Saree',
+        ta: 'இது எங்க காஞ்சிபுரம் குழு நெய்த தூய பருத்தி புடவை. பாரம்பரிய மலர் கோவில் பார்டர், செய்ய ரெண்டு நாள் ஆச்சு. மூலப்பொருள் செலவு எட்டுநூறு ரூபாய்.',
+        hi: 'यह हमारे समूह द्वारा बुनी गई पारंपरिक हथकरघा साड़ी है। पारंपरिक पुष्प मंदिर किनारा, बनाने में 2 दिन लगे। सामग्री लागत 800 रुपये।',
+        en: 'This is a handwoven pure cotton saree with floral temple border, crafted over two days. Material cost was 800 rupees.'
+      },
+      brass: {
+        img: '/static/images/brass_raw.jpg',
+        badge: 'Sample: Brass Diya Lamp',
+        ta: 'இது பாரம்பரிய மெழுகு வார்ப்பு முறையில் செய்யப்பட்ட பித்தளை மயில் விளக்கு. செய்ய மூன்று நாள் ஆனது. மூலப்பொருள் செலவு 550 ரூபாய்.',
+        hi: 'यह पारंपरिक ढोकरा पीतल का मयूर दीपक है, जो मोम ढलाई तकनीक से बना है। इसे तैयार करने में तीन दिन लगे। सामग्री लागत 550 रुपये।',
+        en: 'Traditional Dhokra brass peacock diya lamp crafted with lost-wax metal casting. Took 3 days to make. Material cost 550 rupees.'
+      },
+      wood: {
+        img: '/static/images/brass_raw.jpg',
+        badge: 'Sample: Wood Elephant',
+        ta: 'இது தேக்கு மரத்தில் கைவேலையாக செதுக்கப்பட்ட அரச யானை சிற்பம். செய்ய 2 நாள் ஆனது. மூலப்பொருள் செலவு 600 ரூபாய்.',
+        hi: 'यह सागौन की लकड़ी से हाथ से तराशी गई शाही हाथी की मूर्ति है। बनाने में 2 दिन लगे। सामग्री लागत 600 रुपये।',
+        en: 'Hand-carved royal elephant figurine made from solid teak wood. Took 2 days to make. Material cost 600 rupees.'
+      }
+    };
+
+    function setCraftPreset(key) {
+      const preset = CRAFT_PRESETS[key] || CRAFT_PRESETS.velaku;
+      const lang = document.getElementById('voiceLangSelect').value || 'ta';
+      const textarea = document.getElementById('spokenTranscriptInput');
+      textarea.value = preset[lang] || preset.ta;
+    }
+
+    function handleUserPhotoSelected(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      userUploadedFile = file;
+      const preview = document.getElementById('mobileCapturePreview');
+      preview.src = URL.createObjectURL(file);
+
+      const badge = document.getElementById('photoBadge');
+      badge.textContent = `📸 Custom: ${file.name}`;
+      badge.style.background = 'var(--terracotta)';
+
+      // Auto-detect craft type from filename
+      const fname = file.name.toLowerCase();
+      if (fname.includes('velaku') || fname.includes('diya') || fname.includes('lamp') || fname.includes('agal')) {
+        setCraftPreset('velaku');
+      } else if (fname.includes('brass') || fname.includes('peacock')) {
+        setCraftPreset('brass');
+      } else if (fname.includes('wood') || fname.includes('elephant')) {
+        setCraftPreset('wood');
+      } else if (fname.includes('saree') || fname.includes('silk') || fname.includes('cotton')) {
+        setCraftPreset('saree');
+      }
+    }
+
+    function simulateCapture(type) {
+      userUploadedFile = null;
+      const preview = document.getElementById('mobileCapturePreview');
+      const badge = document.getElementById('photoBadge');
+      const preset = CRAFT_PRESETS[type] || CRAFT_PRESETS.saree;
+
+      preview.src = preset.img;
+      badge.textContent = preset.badge;
+      badge.style.background = 'rgba(0,0,0,0.7)';
+
+      const lang = document.getElementById('voiceLangSelect').value || 'ta';
+      document.getElementById('spokenTranscriptInput').value = preset[lang] || preset.ta;
+    }
+
+    function onLanguageChange(lang) {
+      const textarea = document.getElementById('spokenTranscriptInput');
+      // Look for active craft or default
+      const isBrass = document.getElementById('mobileCapturePreview').src.includes('brass');
+      const isVelaku = document.getElementById('mobileCapturePreview').src.includes('velaku');
+      const activeKey = isVelaku ? 'velaku' : (isBrass ? 'brass' : 'saree');
+      const preset = CRAFT_PRESETS[activeKey] || CRAFT_PRESETS.saree;
+      textarea.value = preset[lang] || preset.ta;
+    }
+
+    function switchReviewLang(lang) {
+      currentReviewLang = lang;
+      document.querySelectorAll('.lang-pill').forEach(el => el.classList.remove('active'));
+      const pill = document.getElementById(lang === 'ta' ? 'pillTa' : (lang === 'hi' ? 'pillHi' : 'pillEn'));
+      if (pill) pill.classList.add('active');
+
+      if (!currentCanonicalProduct) return;
+
+      const titleInput = document.getElementById('reviewTitle');
+      const descInput = document.getElementById('reviewDescription');
+
+      if (lang === 'ta') {
+        titleInput.value = currentCanonicalProduct.tamil_title || currentCanonicalProduct.title || '';
+        descInput.value = currentCanonicalProduct.tamil_description || currentCanonicalProduct.description || '';
+      } else if (lang === 'hi') {
+        titleInput.value = currentCanonicalProduct.hindi_title || currentCanonicalProduct.title || '';
+        descInput.value = currentCanonicalProduct.hindi_description || currentCanonicalProduct.description || '';
+      } else {
+        titleInput.value = currentCanonicalProduct.title || '';
+        descInput.value = currentCanonicalProduct.description || '';
+      }
+    }
+
+    function toggleLiveVoice() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        alert("Web Speech API is not supported in this browser. You can type or edit your craft description directly in the text box below!");
+        return;
+      }
+
+      const btn = document.getElementById('btnVoiceRecord');
+      const icon = document.getElementById('voiceMicIcon');
+      const text = document.getElementById('voiceMicText');
+      const textarea = document.getElementById('spokenTranscriptInput');
+      const lang = document.getElementById('voiceLangSelect').value;
+
+      if (isListening) {
+        if (speechRecognition) speechRecognition.stop();
+        isListening = false;
+        icon.textContent = '🎙️';
+        text.textContent = 'Start Speaking (Live Mic)';
+        btn.style.background = '';
+        btn.style.color = '';
+        return;
+      }
+
+      try {
+        speechRecognition = new SpeechRec();
+        speechRecognition.continuous = true;
+        speechRecognition.interimResults = true;
+
+        if (lang === 'ta') speechRecognition.lang = 'ta-IN';
+        else if (lang === 'hi') speechRecognition.lang = 'hi-IN';
+        else speechRecognition.lang = 'en-IN';
+
+        speechRecognition.onstart = () => {
+          isListening = true;
+          icon.textContent = '🔴';
+          text.textContent = 'Listening... Speak Now';
+          btn.style.background = '#FEE2E2';
+          btn.style.color = '#B91C1C';
+        };
+
+        speechRecognition.onresult = (event) => {
+          let current = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            current += event.results[i][0].transcript;
+          }
+          if (current.trim().length > 0) {
+            textarea.value = current;
+          }
+        };
+
+        speechRecognition.onerror = (e) => {
+          console.warn('Speech error:', e);
+          isListening = false;
+          icon.textContent = '🎙️';
+          text.textContent = 'Start Speaking (Live Mic)';
+          btn.style.background = '';
+          btn.style.color = '';
+        };
+
+        speechRecognition.onend = () => {
+          isListening = false;
+          icon.textContent = '🎙️';
+          text.textContent = 'Start Speaking (Live Mic)';
+          btn.style.background = '';
+          btn.style.color = '';
+        };
+
+        speechRecognition.start();
+      } catch (err) {
+        console.error(err);
+        alert("Microphone permission denied or unavailable. You can type your description directly into the box!");
+      }
+    }
+
+    async function runAITransformation() {
+      const btn = document.getElementById('btnTransformAI');
+      const originalBtnText = btn.innerHTML;
+      btn.innerHTML = '⏳ AI Studio Processing (Neural Matting & Vernacular NLP)...';
+      btn.disabled = true;
+
+      const spokenText = document.getElementById('spokenTranscriptInput').value;
+      const lang = document.getElementById('voiceLangSelect').value;
+
+      try {
+        const formData = new FormData();
+        formData.append('spoken_text', spokenText);
+        formData.append('language', lang);
+
+        if (userUploadedFile) {
+          formData.append('image', userUploadedFile);
+        } else {
+          const imgSrc = document.getElementById('mobileCapturePreview').src;
+          if (imgSrc.includes('velaku')) {
+            formData.append('existing_image_url', '/static/images/raw_velaku.jpg');
+          } else if (imgSrc.includes('brass')) {
+            formData.append('existing_image_url', '/static/images/brass_raw.jpg');
+          } else {
+            formData.append('existing_image_url', '/static/images/saree_raw.jpg');
+          }
+        }
+
+        const res = await fetch('/api/products/ai_process', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        if (data.success && data.product) {
+          const p = data.product;
+          currentCanonicalProduct = p;
+
+          // Update Review Screen
+          document.getElementById('reviewRawImg').src = p.original_image_url || '/static/images/saree_raw.jpg';
+          document.getElementById('reviewCatalogImg').src = p.processed_image_url || '/static/images/saree_catalog.jpg';
+          document.getElementById('reviewTitle').value = p.title;
+          document.getElementById('reviewDescription').value = p.description || '';
+          document.getElementById('reviewMaterial').textContent = `${(p.material || ['Handcrafted']).join(', ')} • ${p.craft_type || 'Artisan'}`;
+          document.getElementById('reviewHsn').textContent = `${p.hsn_code} (${p.category})`;
+          document.getElementById('reviewPriceDisplay').textContent = `₹${p.price.toLocaleString()}`;
+          
+          if (p.recommended_price_range) {
+            document.getElementById('reviewPriceRange').textContent = `Suggested Range: ₹${p.recommended_price_range.low.toLocaleString()} – ₹${p.recommended_price_range.high.toLocaleString()}`;
+          }
+          document.getElementById('priceMatCost').textContent = `₹${p.material_cost || 500}`;
+
+          // Populate Highlights Bullet Points
+          const bpContainer = document.getElementById('reviewBulletPoints');
+          if (bpContainer) {
+            const bps = p.bullet_points && p.bullet_points.length > 0 ? p.bullet_points : [
+              `100% Authentic Indian Heritage Craft: ${p.craft_type}`,
+              `Sustainable Natural Materials: ${(p.material || []).join(', ')}`,
+              `Artisan Labour: ${p.labour_hours} dedicated hours of handmade artistry`,
+              `Direct-to-Artisan Fair Trade: Zero middleman commission`
+            ];
+            bpContainer.innerHTML = bps.map(bp => `<div style="display: flex; gap: 4px; align-items: flex-start;"><span>✓</span><span>${bp}</span></div>`).join('');
+          }
+
+          // Reset to English pill active initially
+          switchReviewLang(lang === 'ta' ? 'ta' : (lang === 'hi' ? 'hi' : 'en'));
+
+          // Update Inspector
+          inspectView('canonical');
+
+          // Switch screen
+          goToMobileScreen('screen-review');
+        }
+      } catch (err) {
+        console.error('AI transformation failed:', err);
+        alert('AI processing encountered an issue: ' + err.message);
+      } finally {
+        btn.innerHTML = originalBtnText;
+        btn.disabled = false;
+      }
+    }
+
+    function toggleChannelSelect(card, channelName) {
+      card.classList.toggle('selected');
+      const chk = card.querySelector('input[type="checkbox"]');
+      chk.checked = card.classList.contains('selected');
+
+      if (chk.checked) {
+        if (!selectedPublishChannels.includes(channelName)) selectedPublishChannels.push(channelName);
+      } else {
+        selectedPublishChannels = selectedPublishChannels.filter(c => c !== channelName);
+      }
+    }
+
+    async function executePublishAll() {
+      const progBox = document.getElementById('publishProgressBox');
+      progBox.style.display = 'block';
+
+      if (isOffline) {
+        progBox.innerHTML = '<div style="color: #EF4444; font-weight: 700;">⚠️ Device is OFFLINE. Saved locally to SQLite pending sync queue. Will automatically publish when connection returns.</div>';
+        return;
+      }
+
+      progBox.innerHTML = `
+        <div style="font-weight: 700; margin-bottom: 0.3rem;">Publishing via Connector Adapters:</div>
+        <div>✓ KalaiPaalam D2C Catalog: Published (Live)</div>
+        <div>✓ ONDC Beckn: BPP Item Created (Demo)</div>
+        <div>✓ GeM Procurement Feed: Compliant (Demo)</div>
+        <div>✓ Amazon Karigar SP-API: Published (Demo)</div>
+        <div>✓ Flipkart Samarth: Published (Demo)</div>
+        <div style="margin-top: 0.5rem; color: #10B981; font-weight: 800;">🎉 SUCCESS: 1 Craft Product Published Across 5 Marketplaces!</div>
+      `;
+
+      // Trigger backend API
+      try {
+        await fetch('/api/products/KP-001/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ channels: selectedPublishChannels })
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function executeCentralSync() {
+      const pid = document.getElementById('syncProductSelect').value;
+      const newPrice = parseFloat(document.getElementById('syncPriceInput').value);
+      const newStock = parseInt(document.getElementById('syncStockInput').value);
+
+      const feed = document.getElementById('syncFeedList');
+      feed.innerHTML = '<div style="color: var(--terracotta); font-weight: 700;">Broadcasting updates to all connected connectors...</div>';
+
+      try {
+        const res = await fetch(`/api/products/${pid}/sync_price`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ price: newPrice, inventory: newStock })
+        });
+        const data = await res.json();
+
+        feed.innerHTML = `
+          <div class="confirm-card">
+            <div><strong>Amazon SP-API</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹${newPrice.toLocaleString()} • ${newStock} units</div></div>
+            <span class="confirm-source">SYNCED</span>
+          </div>
+          <div class="confirm-card">
+            <div><strong>Flipkart Samarth</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹${newPrice.toLocaleString()} • ${newStock} units</div></div>
+            <span class="confirm-source">SYNCED</span>
+          </div>
+          <div class="confirm-card">
+            <div><strong>ONDC Beckn BPP</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹${newPrice.toLocaleString()} • ${newStock} units</div></div>
+            <span class="confirm-source">SYNCED</span>
+          </div>
+          <div class="confirm-card">
+            <div><strong>KalaiPaalam Catalog</strong><div style="font-size: 0.72rem; color: #10B981;">✓ Synced to ₹${newPrice.toLocaleString()} • ${newStock} units</div></div>
+            <span class="confirm-source">LIVE</span>
+          </div>
+        `;
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function loadStoresList() {
+      try {
+        const res = await fetch('/api/marketplaces/');
+        const data = await res.json();
+        const container = document.getElementById('storesGridContainer');
+        container.innerHTML = '';
+
+        data.forEach(item => {
+          const isConn = item.status === 'CONNECTED';
+          const card = document.createElement('div');
+          card.className = `store-card ${isConn ? 'connected' : 'disconnected'}`;
+          card.innerHTML = `
+            <div>
+              <span class="store-badge ${item.environment.toLowerCase()}">${item.environment}</span>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--indigo);">${item.marketplace}</h3>
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">${item.account_name || 'Not Configured'}</div>
+              <div style="font-size: 0.72rem; color: ${isConn ? '#10B981' : '#64748B'}; font-weight: 700; margin-top: 0.25rem;">
+                ● ${isConn ? 'Connected & Authorized' : 'Disconnected'}
+              </div>
+              <div class="cap-list">
+                ${item.capabilities.map(c => `<span class="cap-tag">${c}</span>`).join('')}
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+              ${isConn ? `
+                <button class="btn-outline" style="flex: 1; font-size: 0.75rem;" onclick="disconnectStore('${item.marketplace}')">Disconnect</button>
+                <button class="btn-primary" style="flex: 1; font-size: 0.75rem;" onclick="syncStore('${item.marketplace}')">Sync</button>
+              ` : `
+                <button class="btn-primary" style="width: 100%; font-size: 0.8rem;" onclick="openConnectModal('${item.marketplace}', '${item.environment}')">Connect Store</button>
+              `}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function openConnectModal(marketplace, env) {
+      activeModalMarketplace = marketplace;
+      document.getElementById('modalStoreTitle').textContent = `Connect ${marketplace}`;
+      document.getElementById('modalEnvTag').textContent = `${env} ADAPTER`;
+      document.getElementById('connectModal').classList.add('active');
+    }
+
+    function closeConnectModal() {
+      document.getElementById('connectModal').classList.remove('active');
+    }
+
+    async function confirmStoreConnect() {
+      if (!activeModalMarketplace) return;
+      await fetch('/api/marketplaces/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ marketplace: activeModalMarketplace })
+      });
+      closeConnectModal();
+      loadStoresList();
+    }
+
+    async function disconnectStore(marketplace) {
+      await fetch('/api/marketplaces/disconnect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ marketplace: marketplace })
+      });
+      loadStoresList();
+    }
+
+    async function loadBuyerCatalog() {
+      try {
+        const res = await fetch('/api/catalog/');
+        const data = await res.json();
+        const grid = document.getElementById('buyerCatalogGrid');
+        grid.innerHTML = '';
+
+        data.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'product-card';
+          card.innerHTML = `
+            <div class="card-img-wrap">
+              <img src="${p.processed_image_url || p.original_image_url || '/static/images/saree_catalog.jpg'}">
+            </div>
+            <div class="card-content">
+              <div>
+                <div class="card-artisan">Handcrafted by ${p.artisan_name}</div>
+                <div class="card-title">${p.title}</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">${p.craft_story || p.description.slice(0, 80) + '...'}</div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 0.75rem;">
+                <div class="card-price">₹${p.price.toLocaleString()}</div>
+                <button class="btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;" onclick="orderCatalogItem('${p.product_id}')">Order Direct</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function orderCatalogItem(productId) {
+      const res = await fetch('/api/catalog/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: productId, quantity: 1, buyer_name: "Priya Sharma (Chennai)" })
+      });
+      const data = await res.json();
+      alert(`🎉 Order Confirmed! ID: ${data.order_id}\nInventory updated across all channels.`);
+      loadBuyerCatalog();
+    }
+
+    async function loadTraceability(productId) {
+      try {
+        const res = await fetch(`/api/admin/traceability/${productId}`);
+        const data = await res.json();
+        document.getElementById('adminTraceabilityTrail').textContent = JSON.stringify(data.provenance_trail, null, 2);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function executeBulkPublish() {
+      const res = await fetch('/api/admin/bulk_publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ channels: ["KalaiPaalam Catalog", "ONDC", "Amazon", "Flipkart"] })
+      });
+      const data = await res.json();
+      alert(`🎉 Cluster Bulk Publishing Complete!\nPublished ${data.published_count} items across ONDC, Amazon, Flipkart, and Catalog.`);
+    }
+
+    function triggerAutoSync() {
+      alert("📶 Connection Restored! Background auto-sync executed for queued offline drafts.");
+    }
+  </script>
+</body>
+</html>

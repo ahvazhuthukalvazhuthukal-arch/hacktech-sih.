@@ -1,0 +1,20 @@
+{
+  "voice_samples": [
+    {
+      "id": "voice_saree_ta",
+      "craft": "Handloom Cotton Saree",
+      "language": "Tamil (ta)",
+      "transcript_raw": "இது எங்க காஞ்சிபுரம் குழு நெய்த தூய பருத்தி புடவை. பாரம்பரிய மலர் கோவில் பார்டர், நீலம் மற்றும் மெரூன் நிறங்கள். செய்ய ரெண்டு நாள் ஆச்சு. நூல் மற்றும் சாய மூலப்பொருள் செலவு எட்டுநூறு ரூபாய்.",
+      "translation_en": "This is a pure cotton saree handwoven by our Kanchipuram group. It has a traditional floral temple border with blue and maroon colors. It took two days of continuous weaving to make. The yarn and dye material cost was around eight hundred rupees.",
+      "translation_hi": "यह हमारे कांचीपुरम समूह द्वारा बुनी गई शुद्ध सूती साड़ी है। इसमें पारंपरिक पुष्प मंदिर बॉर्डर, नीला और मैरून रंग हैं। इसे बनाने में दो दिन का समय लगा। धागे और डाई की सामग्री की लागत लगभग आठ सौ रुपये थी।"
+    },
+    {
+      "id": "voice_brass_hi",
+      "craft": "Dhokra Brass Peacock Diya",
+      "language": "Hindi (hi)",
+      "transcript_raw": "यह पारंपरिक ढोकरा पीतल का मयूर दीपक है, जो मोम ढलाई तकनीक से बना है। इसे तैयार करने में तीन दिन लगे। पीतल और मोम की लागत लगभग पांच सौ पचास रुपये आई।",
+      "translation_en": "This is a traditional Dhokra brass peacock lamp crafted using lost-wax metal casting. It took three days to complete. The brass metal and beeswax cost was around five hundred and fifty rupees.",
+      "translation_hi": "यह पारंपरिक ढोकरा पीतल का मयूर दीपक है, जो मोम ढलाई तकनीक से बना है। इसे तैयार करने में तीन दिन लगे। पीतल और मोम की लागत लगभग पांच सौ पचास रुपये आई।"
+    }
+  ]
+}
